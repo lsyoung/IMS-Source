@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title><%= productName %></title>
+
+    <meta charset="utf-8" />
+    <meta name="description" content="<%= productDescription %>" />
+    <meta name="format-detection" content="telephone=no" />
+    <meta name="msapplication-tap-highlight" content="no" />
+    <meta
+      name="viewport"
+      content="user-scalable=no, initial-scale=1, maximum-scale=1, minimum-scale=1, width=device-width<% if (ctx.mode.cordova || ctx.mode.capacitor) { %>, viewport-fit=cover<% } %>"
+    />
+
+    <link
+      rel="icon"
+      type="image/png"
+      sizes="128x128"
+      href="icons/favicon-128x128.png"
+    />
+    <link
+      rel="icon"
+      type="image/png"
+      sizes="96x96"
+      href="icons/favicon-96x96.png"
+    />
+    <link
+      rel="icon"
+      type="image/png"
+      sizes="32x32"
+      href="icons/favicon-32x32.png"
+    />
+    <link
+      rel="icon"
+      type="image/png"
+      sizes="16x16"
+      href="icons/favicon-16x16.png"
+    />
+    <link rel="icon" type="image/ico" href="favicon.ico" />
+    <!-- <script type="text/javascript" src="//dapi.kakao.com/v2/maps/sdk.js?appkey=87145b7c42074033fc3bb63f5e24957c&libraries=services,clusterer,drawing"></script> -->
+    <!-- <script src="/leaflet/leaflet.js"></script>
+    <link rel="stylesheet" href="/leaflet/leaflet.css" /> -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/echarts/5.4.1/echarts.min.js"></script>
+    <script
+      src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js"
+      integrity="sha512-r22gChDnGvBylk90+2e/ycr3RVrDi8DIOkIGNhJlKfuyQM4tIRAI062MaV8sfjQKYVGjOBaZBOA87z+IhZE9DA=="
+      crossorigin="anonymous"
+      referrerpolicy="no-referrer"
+    ></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.4.0/jquery.min.js"></script>
+  </head>
+  <body>
+    <script>
+      // VUE컴포넌트 내부에서 전역에서 Native단으로 호출하기 위한 중계 이번트 처리 부분
+      // 메시지 수신 시, Json 형식으로
+      // {
+      //    type:  'callFromVueToJs' or 'callFromJsToVue',
+      //    funcName: '호출 함수명',
+      //    params: any
+      // }
+      window.addEventListener("message", (e) => {
+        const callInofs = e.data;
+        if (callInofs.type !== "callFromVueToJs") {
+          return;
+        }
+        if (typeof CefSharp !== "undefined" && CefSharp !== null) {
+          CefSharp.PostMessage({
+            funcName: callInofs.funcName,
+            params: callInofs.params,
+          });
+        } else if (typeof android !== "undefined" && android !== null) {
+          const strJsonParam = JSON.stringify({
+            funcName: callInofs.funcName,
+            params: callInofs.params,
+          });
+          android.ShowMessage(strJsonParam);
+        } else {
+          console.log("No Handler === ", callInofs);
+        }
+      });
+
+      function getAgentSystem() {
+        if ("navigator" in window === false) {
+          return "unknown";
+        }
+        // Use the modern 'web hints' provied by
+        // 'userAgentData' if available, else use
+        // the deprecated 'platform' as fallback.
+        let platform = "unknown";
+        if (
+          this.isNullOrUndefinde(navigator.userAgentData) === false &&
+          this.isNullOrUndefinde(navigator.userAgentData.platform) === false
+        ) {
+          platform = navigator.userAgentData.platform;
+        } else if (this.isNullOrUndefinde(navigator.platform) === false) {
+          platform = navigator.platform;
+        }
+        if (platform.startsWith("win") === true) return "windows";
+        if (platform.startsWith("mac") === true) return "macos";
+        if (platform.startsWith("linux") === true) return "linux";
+        return "unknown";
+      }
+
+      function callFromExternal(funcName, params) {
+        console.log("funcName = ", funcName);
+        console.log("params = ", params);
+        if (typeof CefSharp !== "undefined" && CefSharp !== null) {
+          const jParams = JSON.parse(params);
+          window.postMessage(
+            { type: "callFromJsToVue", funcName, params: jParams },
+            "http://localhost:8081"
+          );
+        } else if (typeof android !== "undefined" && android !== null) {
+          const jParams = JSON.parse(params);
+          window.postMessage({
+            type: "callFromJsToVue",
+            funcName,
+            params: jParams,
+          });
+        }
+        return true;
+      }
+    </script>
+    <!-- DO NOT touch the following DIV -->
+    <div id="q-app"></div>
+  </body>
+</html>
