@@ -89,7 +89,13 @@
         </q-toolbar-title>
         <div class="row">
           <div class="col-4 q-pa-md">
-            <q-img :src="clickedItem.prod_image" :ratio="4 / 3" />
+            <q-img :src="clickedItem.prod_image" :ratio="4 / 3">
+              <template v-slot:error>
+                <div class="absolute-full flex flex-center bg-grey-1 text-grey-3 text-h5 text-center text-weight-bold">
+                  NO IMAGE
+                </div>
+              </template>
+            </q-img>
             <div
               class="q-mt-sm text-weight-bolder"
               style="font-size: 24px; text-align: center"

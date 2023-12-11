@@ -1,7 +1,7 @@
 <template>
   <q-layout view="lHh Lpr lFf" @click="onClickDisplay">
     <q-header style="height: 80px; background-color: #2F2F2F">
-      <q-toolbar style="height: 100%">
+      <q-toolbar style="height: 100%; padding-right: 0;">
           <q-icon name="fa-solid fa-circle-exclamation" class="text-light q-mr-sm" style="font-size: 1.55em" />
           <span class="text-h6 text-weight-bolder">
             주문방법
@@ -9,23 +9,29 @@
           <span class="text-h6 text-weight-medium q-ml-md">
             메뉴선택
           </span>
-          <q-icon name="fa-solid fa-circle-arrow-right q-mr-sm" class="text-light q-ml-sm" style="font-size: 1.55em" />
-          <span class="text-h6 text-weight-medium q-ml-sm">
+          <q-icon name="fa-solid fa-circle-arrow-right" class="text-light q-ml-sm q-mr-sm" style="font-size: 1.55em" />
+          <span class="text-h6 text-weight-medium">
             장바구니
           </span>
-          <q-icon name="fa-solid fa-circle-arrow-right q-mr-sm" class="text-light q-ml-sm" style="font-size: 1.55em" />
-          <span class="text-h6 text-weight-medium q-ml-sm">
+          <q-icon name="fa-solid fa-circle-arrow-right" class="text-light q-ml-sm q-mr-sm" style="font-size: 1.55em" />
+          <span class="text-h6 text-weight-medium">
             주문완료
           </span>
         <q-space></q-space>
-        <q-btn
+        <q-separator dark vertical />
+        <q-btn round color="transparent" icon="fa-solid fa-house" class="q-mx-md" />
+        <q-separator dark vertical />
+        <q-btn round color="transparent" icon="fa-solid fa-language" class="q-mx-md" />
+        <q-separator dark vertical />
+        <q-btn class="bg-blue-6 text-h6 text-weight-bold" stretch flat :label="this.getTableInfo.tbl_name" @click="changeTable" />
+        <!-- <q-btn
           class="tableName bg-blue-6 text-weight-bolder"
           icon="fa-solid fa-bars"
           :label="this.getTableInfo.tbl_name"
           :ripple="false"
           flat
           @click="changeTable"
-        ></q-btn>
+        ></q-btn> -->
       </q-toolbar>
     </q-header>
 
@@ -39,7 +45,7 @@
             :key="list.prdgrp_code"
             :active="clickMenu === list.prdgrp_code"
             @click="onMenuClicked(list.prdgrp_code)"
-            active-class="my-menu-link bg-blue-6"
+            active-class="my-menu-link text-blue-6"
           >
             <q-item-section>
               {{ list.prdgrp_name }}
@@ -226,14 +232,16 @@ export default {
   height: 55px;
   margin: 5px;
   padding: 8px;
-  border-radius: 5px;
-  border: 1px solid #e1e1e1;
-  background: #fafafa;
+  /* border-radius: 5px; */
+  /* border: 1px solid #e1e1e1; */
+  /* background: #fafafa; */
+  text-align: left;
 }
 .q-item__section {
-  font-size: 20px;
-  font-weight: bold;
-  text-align: center;
+  font-size: 1.65rem;
+  font-weight:900;
+  letter-spacing: -1px;
+  /* text-align: center; */
 }
 .drawerBtn {
   position: absolute;

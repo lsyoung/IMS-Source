@@ -42,7 +42,7 @@ export default {
   max-width: 500px;
 }
 .alertBar {
-  background-color: #294380;
+  background-color: #2196f3;
   color: #fff;
 }
 .btnDiv {
@@ -53,7 +53,7 @@ export default {
 .okBtn {
   flex-basis: 40%;
   font-size: 1.35rem;
-  background-color: #294380;
+  background-color: #2196f3;
   color: #fff;
 }
 .cardContent {

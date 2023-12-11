@@ -80,7 +80,7 @@ export default {
   color: #ffffff;
 }
 #head {
-  background-color: #00216a;
+  background-color: #2196f3;
   display: flex;
   align-items: center;
 }
