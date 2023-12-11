@@ -44,6 +44,11 @@
                     icon="fa-solid fa-thumbs-up"
                     v-if="item.recmd_flag == 1"
                   />
+                  <template v-slot:error>
+                    <div class="absolute-full flex flex-center bg-grey-1 text-grey-3 text-h5 text-center text-weight-bold">
+                      NO IMAGE
+                    </div>
+                  </template>
                 </q-img>
                 <q-separator />
                 <q-card-section class="q-pt-none nameSection">
@@ -1333,7 +1338,7 @@ export default {
   font-weight: 600;
 }
 .menuChip {
-  background-color: #294380;
+  background-color: #2196f3;
 }
 #btnAction {
   padding: 0px;
@@ -1376,7 +1381,7 @@ export default {
   width: 180px;
   height: 70px;
   font-size: 1.5rem;
-  background-color: #294380;
+  background-color: #2196f3;
   color: #fff;
   border-radius: 0.25em;
 }
@@ -1464,7 +1469,7 @@ export default {
   width: 34%;
   /* height: 75px; */
   font-size: 1.95rem;
-  background-color: #294380;
+  background-color: #2196f3;
   color: #fff;
 }
 .cartOrderBtn {
@@ -1494,7 +1499,7 @@ export default {
   align-items: center;
 }
 .removeOneItem {
-  background-color: #294380;
+  background-color: #2196f3;
   /* margin-left: 60px; */
 }
 .optionTd {

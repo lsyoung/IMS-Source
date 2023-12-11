@@ -1,5 +1,5 @@
 <template>
-  <div class="wrap">
+  <div class="wrap bg-grey-2">
     <div class="topBox">
       <q-btn class="saveTable" flat @click="saveTable">저장 </q-btn>
       <!-- <q-btn class="selectTable" flat>테이블선택 :</q-btn> -->
@@ -12,15 +12,15 @@
       <div class="row q-col-gutter-sm" id="contain">
         <div class="col-2" v-for="table in getTableList" :key="table.tbl_code">
           <q-card
-            class="tableCard"
+            class="tableCard text-center"
             :class="{ active: changeTableCode == table.tbl_code }"
             :id="table.tbl_code"
             flat
             bordered
             @click="onTableClick(table)"
           >
-            <q-card-section class="q-pa-xs tableName">
-              <div>
+            <q-card-section class="q-pa-xs tableName vertical-middle" style="height: 100%;">
+              <div style="height: 100%; display: flex; justify-content: center; align-items: center;" class="text-h6 text-weight-bold">
                 {{ table.tbl_name }}
               </div>
             </q-card-section>
@@ -163,13 +163,13 @@ export default {
 </script>
 <style scoped>
 .wrap {
-  background-color: #f2f6fc;
+  /* background-color: #f2f6fc; */
 }
 .topBox {
   display: flex;
   height: 70px;
   align-items: center;
-  background-color: #294380;
+  background-color: #2F2F2F;
 }
 .topBox > span {
   position: absolute;
@@ -180,7 +180,7 @@ export default {
 }
 .tableCard {
   height: 80px;
-  border: 2px solid #e4e8ee;
+  border: 1px solid #e4e8ee;
 }
 .selectTable {
   color: #fff;
