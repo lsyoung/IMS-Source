@@ -18,10 +18,31 @@
             주문완료
           </span>
         <q-space></q-space>
+        
         <q-separator dark vertical />
         <q-btn round color="transparent" icon="fa-solid fa-house" class="q-mx-md" />
         <q-separator dark vertical />
-        <q-btn round color="transparent" icon="fa-solid fa-language" class="q-mx-md" />
+        <q-btn color="transparent" icon="fa-solid fa-language" class="q-mx-md">
+          <q-menu id="lang">
+            <q-list style="min-width: 130px; font-size: 10px;" >
+              <q-item clickable v-close-popup>
+                <q-item-section>한국어</q-item-section>
+              </q-item>
+              <q-separator />
+              <q-item clickable v-close-popup>
+                <q-item-section>English</q-item-section>
+              </q-item>
+              <q-separator />
+              <q-item clickable v-close-popup>
+                <q-item-section>Chinese</q-item-section>
+              </q-item>
+              <q-separator />
+              <q-item clickable v-close-popup>
+                <q-item-section>Japanese</q-item-section>
+              </q-item>
+            </q-list>
+          </q-menu>
+        </q-btn>
         <q-separator dark vertical />
         <q-btn class="bg-blue-6 text-h6 text-weight-bold" stretch flat :label="this.getTableInfo.tbl_name" @click="changeTable" />
         <!-- <q-btn
@@ -241,6 +262,22 @@ export default {
   font-size: 1.65rem;
   font-weight:900;
   letter-spacing: -1px;
+  /* text-align: center; */
+}
+
+#lang .q-list > .q-item {
+  height: auto;
+  margin: 0;
+  padding: 5px;
+  /* border-radius: 5px; */
+  /* border: 1px solid #e1e1e1; */
+  /* background: #fafafa; */
+  text-align: left;
+}
+
+#lang .q-item__section {
+  font-size: 1rem;
+  font-weight:700;
   /* text-align: center; */
 }
 .drawerBtn {
