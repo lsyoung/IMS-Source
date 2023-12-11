@@ -1,19 +1,19 @@
 <template>
   <q-layout view="lHh Lpr lFf" @click="onClickDisplay">
     <q-header style="height: 80px; background-color: #2F2F2F">
-      <q-toolbar style="height: 100%; padding-right: 0;">
-          <q-icon name="fa-solid fa-circle-exclamation" class="text-light q-mr-sm" style="font-size: 1.55em" />
+      <q-toolbar style="height: 100%; padding-right: 0; padding-left: 26px;">
+          <q-icon name="fa-solid fa-circle-exclamation" class="text-light q-mr-sm" style="font-size: 1.25em" />
           <span class="text-h6 text-weight-bolder">
             주문방법
           </span>
           <span class="text-h6 text-weight-medium q-ml-md">
             메뉴선택
           </span>
-          <q-icon name="fa-solid fa-circle-arrow-right" class="text-light q-ml-sm q-mr-sm" style="font-size: 1.55em" />
+          <q-icon name="fa-solid fa-circle-arrow-right" class="text-light q-ml-sm q-mr-sm" style="font-size: 1.25em" />
           <span class="text-h6 text-weight-medium">
             장바구니
           </span>
-          <q-icon name="fa-solid fa-circle-arrow-right" class="text-light q-ml-sm q-mr-sm" style="font-size: 1.55em" />
+          <q-icon name="fa-solid fa-circle-arrow-right" class="text-light q-ml-sm q-mr-sm" style="font-size: 1.25em" />
           <span class="text-h6 text-weight-medium">
             주문완료
           </span>
