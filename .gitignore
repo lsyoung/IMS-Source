@@ -33,3 +33,4 @@ yarn-error.log*
 *.ntvs*
 *.njsproj
 *.sln
+git(2).egg

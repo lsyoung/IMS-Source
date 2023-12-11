@@ -1,10 +1,25 @@
 <template>
   <q-layout view="lHh Lpr lFf" @click="onClickDisplay">
-    <q-header style="height: 80px; background-color: #21409a">
-      <q-toolbar style="height: 100px">
+    <q-header style="height: 80px; background-color: #2F2F2F">
+      <q-toolbar style="height: 100%">
+          <q-icon name="fa-solid fa-circle-exclamation" class="text-light q-mr-sm" style="font-size: 1.55em" />
+          <span class="text-h6 text-weight-bolder">
+            주문방법
+          </span>
+          <span class="text-h6 text-weight-medium q-ml-md">
+            메뉴선택
+          </span>
+          <q-icon name="fa-solid fa-circle-arrow-right q-mr-sm" class="text-light q-ml-sm" style="font-size: 1.55em" />
+          <span class="text-h6 text-weight-medium q-ml-sm">
+            장바구니
+          </span>
+          <q-icon name="fa-solid fa-circle-arrow-right q-mr-sm" class="text-light q-ml-sm" style="font-size: 1.55em" />
+          <span class="text-h6 text-weight-medium q-ml-sm">
+            주문완료
+          </span>
         <q-space></q-space>
         <q-btn
-          class="tableName"
+          class="tableName bg-blue-6 text-weight-bolder"
           icon="fa-solid fa-bars"
           :label="this.getTableInfo.tbl_name"
           :ripple="false"
@@ -14,7 +29,7 @@
       </q-toolbar>
     </q-header>
 
-    <q-drawer v-model="leftDrawerOpen" show-if-above :width="200" bordered>
+    <q-drawer v-model="leftDrawerOpen" show-if-above :width="200">
       <q-img src="../assets/logitech.jpg" style="margin-top: 10px" />
       <q-scroll-area style="height: calc(100vh - 270px); margin-top: 20px">
         <q-list>
@@ -24,7 +39,7 @@
             :key="list.prdgrp_code"
             :active="clickMenu === list.prdgrp_code"
             @click="onMenuClicked(list.prdgrp_code)"
-            active-class="my-menu-link"
+            active-class="my-menu-link bg-blue-6"
           >
             <q-item-section>
               {{ list.prdgrp_name }}
@@ -205,7 +220,7 @@ export default {
 <style scoped>
 .my-menu-link {
   color: white;
-  background: #294380 !important;
+  /* background: #294380 !important; */
 }
 .q-list > .q-item {
   height: 55px;
@@ -228,19 +243,19 @@ export default {
 }
 #orderList {
   background-color: #fff;
-  color: #21409a;
+  color: #2196f3;
   font-weight: bold;
   height: 75px;
   margin-bottom: 15px;
 }
 #addItem {
-  background-color: #21409a;
+  background-color: #2196f3;
   color: #fff;
   font-weight: bold;
   height: 75px;
 }
 .tableName {
-  background-color: #21409a;
+  background-color: #2196f3;
   height: 55px;
   position: absolute;
   right: 12px;

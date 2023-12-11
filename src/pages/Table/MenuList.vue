@@ -1,11 +1,11 @@
 <template>
-  <div class="wrap">
+  <div class="wrap bg-grey-2">
     <q-scroll-area style="height: calc(100vh - 80px); padding: 6px 0px">
       <div class="row">
         <div class="col bg-3">
           <div class="row" id="scrollRow">
             <div
-              class="col-4 colCard"
+              class="col-3 colCard  q-mx-md q-my-md"
               v-for="item in groupMenu"
               :key="item.prod_code"
             >
@@ -45,6 +45,7 @@
                     v-if="item.recmd_flag == 1"
                   />
                 </q-img>
+                <q-separator />
                 <q-card-section class="q-pt-none nameSection">
                   <div class="subtitle1">
                     {{ item.prod_name }}
@@ -56,7 +57,7 @@
                     <span class="org_price" v-if="item.dc_price != 0">
                       <del>{{ item.price | money }}원</del>
                     </span>
-                    <span class="dis_price">
+                    <span class="dis_price text-blue-6">
                       <ins>{{ item.sel_price | money }}원</ins>
                     </span>
                   </div>
@@ -76,8 +77,8 @@
       @click="onClickDisplay"
     >
       <q-card>
-        <q-toolbar-title
-          style="text-align: center; background-color: #294380; color: #fff"
+        <q-toolbar-title class="q-py-sm text-h6 text-weight-bold"
+          style="text-align: center; background-color: #1378C4; color: #fff"
         >
           상품정보
         </q-toolbar-title>
@@ -514,7 +515,8 @@
     >
       <q-card>
         <q-toolbar-title
-          style="text-align: center; background-color: #294380; color: #fff"
+          style="text-align: center; background-color: #2196f3; color: #fff"
+          class="q-py-sm text-weight-bold"
         >
           주문내역
         </q-toolbar-title>
@@ -1282,25 +1284,29 @@ export default {
 .cardHeader {
   display: flex;
   align-items: flex-end;
-  padding: 16px;
+  padding: 20px;
 }
 .menuCard {
-  border: 1px solid #ccc;
+  border: 0 solid #ccc;
 }
 .org_price {
   font-size: 16px;
   color: #aaa;
+  font-size: 1.35rem;
+  font-weight: 700;
 }
 .dis_price > ins {
   font-weight: 500;
   text-decoration: none;
-  font-size: 20px;
+  font-size: 1.35rem;
+  font-weight: 700;
 }
 #scrollRow {
   margin: 0px 0px 0px 10px;
 }
 .colCard {
   padding: 10px 10px 0px 0px;
+  width: calc(25% - 32px);
 }
 .nameSection {
   padding: 0px 5px;
@@ -1312,12 +1318,13 @@ export default {
   /* align-items: center; */
 }
 .nameSection > .subtitle1 {
-  font-size: 1.35rem;
+  font-size: 1.55rem;
   font-weight: bold;
   line-height: 1.55rem;
   letter-spacing: 0.00937em;
   margin-bottom: 5px;
   text-align: center;
+  font-weight: 900;
 }
 .my-table-details {
   width: 380px;
@@ -1563,9 +1570,9 @@ export default {
 }
 .checkOrderList {
   position: absolute;
-  background-color: #294380;
+  background-color: #2196f3;
   color: #fff;
-  border: 1px solid #ccc;
+  /* border: 1px solid #ccc; */
   bottom: 15px;
   left: 15px;
   height: 65px;
