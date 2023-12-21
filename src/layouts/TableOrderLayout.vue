@@ -1,106 +1,66 @@
 <template>
-  <q-layout view="lHh Lpr lFf" @click="onClickDisplay">
-    <q-header style="height: 80px; background-color: #2F2F2F">
-      <q-toolbar style="height: 100%; padding-right: 0; padding-left: 26px;">
-          <q-icon name="fa-solid fa-circle-exclamation" class="text-light q-mr-sm" style="font-size: 1.25em" />
-          <span class="text-h6 text-weight-bolder">
-            주문방법
-          </span>
-          <span class="text-h6 text-weight-medium q-ml-md">
-            메뉴선택
-          </span>
-          <q-icon name="fa-solid fa-circle-arrow-right" class="text-light q-ml-sm q-mr-sm" style="font-size: 1.25em" />
-          <span class="text-h6 text-weight-medium">
-            장바구니
-          </span>
-          <q-icon name="fa-solid fa-circle-arrow-right" class="text-light q-ml-sm q-mr-sm" style="font-size: 1.25em" />
-          <span class="text-h6 text-weight-medium">
-            주문완료
-          </span>
-        <q-space></q-space>
-        
-        <q-separator dark vertical />
-        <q-btn round color="transparent" icon="fa-solid fa-house" class="q-mx-md" />
-        <q-separator dark vertical />
-        <q-btn color="transparent" icon="fa-solid fa-language" class="q-mx-md">
-          <q-menu id="lang">
-            <q-list style="min-width: 130px; font-size: 10px;" >
-              <q-item clickable v-close-popup>
-                <q-item-section>한국어</q-item-section>
-              </q-item>
-              <q-separator />
-              <q-item clickable v-close-popup>
-                <q-item-section>English</q-item-section>
-              </q-item>
-              <q-separator />
-              <q-item clickable v-close-popup>
-                <q-item-section>Chinese</q-item-section>
-              </q-item>
-              <q-separator />
-              <q-item clickable v-close-popup>
-                <q-item-section>Japanese</q-item-section>
-              </q-item>
-            </q-list>
-          </q-menu>
-        </q-btn>
-        <q-separator dark vertical />
-        <q-btn class="bg-blue-6 text-h6 text-weight-bold" stretch flat :label="this.getTableInfo.tbl_name" @click="changeTable" />
-        <!-- <q-btn
-          class="tableName bg-blue-6 text-weight-bolder"
-          icon="fa-solid fa-bars"
-          :label="this.getTableInfo.tbl_name"
-          :ripple="false"
-          flat
-          @click="changeTable"
-        ></q-btn> -->
+  <q-layout view="hHh lpR fFf">
+
+    <q-header class="bg-grey-1 text-grey-8" bordered>
+      <q-toolbar style="height: 65px;">
+        <q-toolbar-title class="justify-center align-center" style="vertical-align: middle; align-items: center; justify-content: flex-start; display: flex;">
+          <img src="~assets/imlogitech_logo.svg" width="auto" height="48px" class="q-ml-lg" >
+          <q-separator vertical class="q-my-md q-mx-md" color="grey-9" />
+          <span class="text-h6 text-grey-9">{{ storeName }}</span>
+        </q-toolbar-title>
+
+        <q-btn :label="this.getTableInfo.tbl_name" :ripple="false" dense flat @click="changeTable"  color="grey-1" text-color="grey-9" class="text-h6 q-mr-lg" />
       </q-toolbar>
     </q-header>
 
-    <q-drawer v-model="leftDrawerOpen" show-if-above :width="200">
-      <q-img src="../assets/logitech.jpg" style="margin-top: 10px" />
-      <q-scroll-area style="height: calc(100vh - 270px); margin-top: 20px">
-        <q-list>
-          <q-item
+    <q-drawer class="bg-grey-5 text-grey-8" :width="250" show-if-above v-model="leftDrawerOpen" side="left" bordered :breakpoint="500">
+      <q-list class="text-h6 q-mt-lg">
+          <q-item 
+            
+            class="menu"
+            active-class="active"
             clickable
             v-for="list in menuList"
             :key="list.prdgrp_code"
             :active="clickMenu === list.prdgrp_code"
-            @click="onMenuClicked(list.prdgrp_code)"
-            active-class="my-menu-link text-blue-6"
-          >
+            @click="onMenuClicked(list.prdgrp_code)">
             <q-item-section>
               {{ list.prdgrp_name }}
             </q-item-section>
           </q-item>
         </q-list>
-      </q-scroll-area>
-      <ul class="drawerBtn">
-        <li>
-          <q-btn
-            id="orderList"
-            label="주문내역"
-            size="22px"
-            icon="fa-solid fa-list-ul"
-            @click="openOrderList()"
-          />
-        </li>
-        <li>
-          <q-btn
-            id="addItem"
-            label="장바구니"
-            size="22px"
-            icon="fa-solid fa-cart-shopping"
-            @click="openBasket()"
-          >
-            <q-badge color="red" floating>{{ shoppingBasketCount }}</q-badge>
-          </q-btn>
-        </li>
-      </ul>
     </q-drawer>
+
     <q-page-container>
       <router-view />
-    </q-page-container>
     <alert-dialog ref="refAlertPopup" />
+    </q-page-container>
+
+    <q-drawer show-if-above v-model="rightDrawerOpen" side="right"
+    :width="100" :breakpoint="500" class="bg-grey-1">
+      <q-btn @click="openBasket()" color="primary" unelevated style="top: 6vh; right: 0; margin: 0; float: right; position: relative; border-top-right-radius: 0; border-bottom-right-radius: 0; border-top-left-radius: 15px; border-bottom-left-radius: 15px; width: 90%;">
+        <div class="row items-center no-wrap" style="flex-direction: column; padding: 30vh 0;" text-color="grey-9">
+          <q-icon name="shopping_basket" text-color="grey-9" />
+          <div class="text-center">
+            장바구니<br>
+           <span class="text-h6 text-weight-bold">
+            {{ shoppingBasketCount }}
+            </span>
+          </div>
+        </div>
+      </q-btn>
+    </q-drawer>
+
+    <q-footer class="bg-grey-4 text-grey-9" ref="footer">
+      <q-toolbar>
+        <div class="col-6 justify-center text-center">
+          <q-btn style="width: 100%; font-size: 120%;" :ripple="false" dense unelevated flat color="grey-9" icon="view_list" label="주문 내역" @click="openOrderList()" />
+        </div>
+        <div class="col-6 justify-center text-center">
+          <q-btn style="width: 100%; font-size: 120%;" :ripple="false" dense  unelevated flat color="grey-9" icon="content_paste" label="계산서" @click="OnReqOrder()" />
+        </div>
+      </q-toolbar>
+    </q-footer>
   </q-layout>
 </template>
 
@@ -118,6 +78,7 @@ export default {
       clickMenu: "",
       getTableInfo: "",
       getTabletInfo: "",
+      storeName: "한우명가 한식 점문점",
       leftDrawerOpen: false,
       popUpData: {
         persistent: false,
@@ -198,6 +159,18 @@ export default {
       this.popUpData.fixed = true;
       EventBus.$emit("showBasket", this.popUpData);
     },
+    
+    OnReqOrder() {
+      this.popUpData.persistent = true;
+      this.popUpData.fixed = true;
+      EventBus.$emit("showBasketList", this.popUpData);
+    },
+    
+    openOrder() {
+      this.popUpData.persistent = true;
+      this.popUpData.fixed = true;
+      EventBus.$emit("getOrderLength", this.popUpData);
+    },
     //주문내역
     async openOrderList() {
       let param = {
@@ -245,66 +218,44 @@ export default {
 };
 </script>
 <style scoped>
-.my-menu-link {
-  color: white;
-  /* background: #294380 !important; */
+.menu {
+  margin: 10px 20px;
+  position: relative;
+  width: 210px;
+  border: 1px solid #e0e0e0;
+  border-radius: 10px;
 }
-.q-list > .q-item {
-  height: 55px;
-  margin: 5px;
-  padding: 8px;
-  /* border-radius: 5px; */
-  /* border: 1px solid #e1e1e1; */
-  /* background: #fafafa; */
-  text-align: left;
-}
-.q-item__section {
-  font-size: 1.65rem;
-  font-weight:900;
-  letter-spacing: -1px;
-  /* text-align: center; */
-}
-
-#lang .q-list > .q-item {
-  height: auto;
-  margin: 0;
-  padding: 5px;
-  /* border-radius: 5px; */
-  /* border: 1px solid #e1e1e1; */
-  /* background: #fafafa; */
-  text-align: left;
-}
-
-#lang .q-item__section {
-  font-size: 1rem;
-  font-weight:700;
-  /* text-align: center; */
-}
-.drawerBtn {
+.menu::after {
+  font-family: "Material Icons";
+    content: "\e5df";
+  display: block;
+  color: #e0e0e0;
+  width: 28px;
+  height: 28px;
+  top: 16%;
+  right: 0;
   position: absolute;
-  list-style: none;
-  bottom: 2px;
-  padding-left: 15px;
+  border-radius: 10px;
+
 }
-#orderList {
-  background-color: #fff;
-  color: #2196f3;
-  font-weight: bold;
-  height: 75px;
-  margin-bottom: 15px;
+.active {
+  border: 1px solid !important;
+  border-radius: 10px;
+  margin-left: 30px;
+  position: relative;
+  width: 210px;
 }
-#addItem {
-  background-color: #2196f3;
-  color: #fff;
-  font-weight: bold;
-  height: 75px;
-}
-.tableName {
-  background-color: #2196f3;
-  height: 55px;
+.active::after {
+  font-family: "Material Icons";
+    content: "\e5df";
+  display: block;
+  color: #DE5F50;
+  width: 28px;
+  height: 28px;
+  top: 16%;
+  right: 0;
   position: absolute;
-  right: 12px;
-  top: 12px;
-  font-size: 20px;
+  border-radius: 10px;
+
 }
 </style>

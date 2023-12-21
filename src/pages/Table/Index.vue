@@ -1,8 +1,43 @@
 <template>
-  <div class="contain" @click="onMenuClicked(productGroupCode)">
-    <q-img src="../../assets/logitech.jpg" class="mainImg" />
-    <div class="alertCheck">
-      <span>주문을 하시려면 화면을 터치해주세요.</span>
+  <div class="container" @click="onMenuClicked(productGroupCode)">
+    <div class="contain">
+      <div class="row justify-center q-pa-lg">
+        <div class="col-4 text-center q-pa-xl">
+          <q-img src="../../assets/imlogitech_logo.svg" class="mainImg" />
+        </div>
+      </div>
+      <div class="row justify-center">
+        <div class="col-12 text-center">
+          <h1 class="storeName text-primary text-weight-bold">{{ storeName1 }}</h1>
+          <h1 class="storeName text-secondary text-weight-bold">{{ storeName2 }}</h1>
+        </div>
+      </div>
+      <div class="info row justify-center text-grey-8 text-weight-semibold text-h5">
+        <span>주문을 하시려면 화면을 터치해주세요.</span>
+      </div>
+    </div>
+    <div class="block">
+      <div class="block--bg">
+        <ul>
+          <li class="block--item--menu q-py-sm">
+            <img src="../../assets/home_icon_1.svg">
+            <h2>뷰티·살롱</h2>
+          </li>
+          <li class="block--item--menu q-py-sm">
+            <img src="../../assets/home_icon_2.svg">
+            <h2>뷰티·살롱</h2>
+          </li>
+          <li class="block--item--menu q-py-sm">
+            <img src="../../assets/home_icon_3.svg">
+            <h2>뷰티·살롱</h2>
+          </li>
+          <li class="block--item--menu q-py-sm">
+            <img src="../../assets/home_icon_4.svg">
+            <h2>뷰티·살롱</h2>
+          </li>
+        </ul>
+
+      </div>
     </div>
   </div>
 </template>
@@ -15,6 +50,8 @@ export default {
       menuList: [],
       productGroupCode: "",
       getTabletInfo: "",
+      storeName1: "한우명가",
+      storeName2: "한식 점문점",
     };
   },
   mounted() {
@@ -58,25 +95,72 @@ export default {
 };
 </script>
 <style scoped>
-.mainImg {
-  width: 600px;
-  position: absolute;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
+.container {
+  width: 100vw;
+  height: 100vh;
+  display: flex;
 }
 .contain {
-  height: 100vh;
-  width: 100vw;
-  position: relative;
+  height: 100%;
+  width: 80%;
 }
-.alertCheck {
+.block--bg {
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0,0,0,.6);
+}
+.block--bg::before {
+  content: "";
+  display: block;
+  width: 11px;
+  height: 238px;
+  margin-left: -11px;
+  background-color: #F96B5A;
   position: absolute;
-  top: 70%;
-  left: 50%;
-  color: #555;
-  font-size: 1.75rem;
-  font-weight: 800;
-  transform: translate(-50%, -70%);
+  top: 35vh;
+  border-top-left-radius: 10px;
+  border-bottom-left-radius: 10px;
+}
+.block {
+  height: 100%;
+  width: 20%;
+  background-image: url(../../assets/index_img.jpg);
+  background-position: center center;
+  background-repeat: no-repeat;
+  justify-content: center;
+  align-items: center;
+}
+.block ul {
+  list-style: none;
+  color: #fff;
+  display: flex;
+  margin: 0;
+  padding: 1rem;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+  height: 100%;
+}
+.block ul li {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 120px;
+  flex-direction: column;
+}
+.block ul li img {
+  width: 60%;
+  height: auto;
+}
+.block ul li h2 {
+  font-weight: 700;
+  font-size: 1.275rem;
+  margin-top: 0;
+}
+.mainImg {
+  width: 178px;
+}
+.storeName {
+  font-size: 6.75rem;
 }
 </style>

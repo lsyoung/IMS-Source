@@ -2,7 +2,7 @@
   <q-dialog v-model="dialogOpened">
     <q-card style="width: 500px">
       <q-card-section
-        class="bg-blue-6 text-white"
+        class="bg-primary text-white"
         v-if="this.dialogType === 'ok'"
       >
         <div class="text-h6">{{ dialogTitle }}</div>

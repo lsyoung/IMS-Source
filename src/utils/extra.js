@@ -151,14 +151,14 @@ const extra = {
       }
     }
   },
-  showAlert(parent, title, message) {
+  showAlert(parent, title, icon, message) {
     if (
       extra.isNullOrUndefinde(parent) === false &&
       extra.isNullOrUndefinde(parent.$refs) === false
     ) {
       // eslint-disable-next-line no-prototype-builtins
       if (parent.$refs.hasOwnProperty("refAlertPopup") === true) {
-        parent.$refs.refAlertPopup.ShowDialog(title, message);
+        parent.$refs.refAlertPopup.ShowDialog(title, icon, message);
       } else {
         extra.showToast(
           parent,

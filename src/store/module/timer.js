@@ -19,7 +19,7 @@ const timer = {
       } else if (!state.timeIsPause && state.displayType == "KIOSK") {
         state.displayTimeOut = setTimeout(() => {
           this.$router.push({ path: "/mainPage" });
-        }, 5000);
+        }, 500000);
       }
     },
     changeState(state) {
