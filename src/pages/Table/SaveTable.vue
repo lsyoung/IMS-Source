@@ -1,10 +1,10 @@
 <template>
-  <div class="wrap bg-grey-2">
-    <div class="topBox">
+  <div class="wrap bg-grey-1">
+    <div class="topBox bg-grey-1">
       <q-btn class="saveTable" flat @click="saveTable">저장 </q-btn>
       <!-- <q-btn class="selectTable" flat>테이블선택 :</q-btn> -->
-      <span v-if="getTableName != ''">{{ getTableName }}</span>
-      <span v-else-if="changeTableName != undefined">
+      <span class="text-grey-9" v-if="getTableName != ''">{{ getTableName }}</span>
+      <span class="text-grey-9" v-else-if="changeTableName != undefined">
         {{ changeTableName }}
       </span>
     </div>
@@ -20,7 +20,7 @@
             @click="onTableClick(table)"
           >
             <q-card-section class="q-pa-xs tableName vertical-middle" style="height: 100%;">
-              <div style="height: 100%; display: flex; justify-content: center; align-items: center;" class="text-h6 text-weight-bold">
+              <div style="height: 100%; display: flex; justify-content: center; align-items: center;" class="text-h6 text-weight-bold  text-grey-9">
                 {{ table.tbl_name }}
               </div>
             </q-card-section>
@@ -169,7 +169,8 @@ export default {
   display: flex;
   height: 70px;
   align-items: center;
-  background-color: #2F2F2F;
+  background-color: #9e9e9e;
+  border-bottom: 1px solid #D6D6D6;
 }
 .topBox > span {
   position: absolute;
@@ -191,13 +192,13 @@ export default {
   position: absolute;
   left: 10px;
   width: 150px;
-  background-color: #2772dd;
+  background-color: #DE5F50;
   color: #fff;
   font-size: 1.25rem;
   font-weight: bold;
 }
 .tableCard.active {
-  background-color: #d2e3fc;
-  border: 1px solid #d2e3fc;
+  background-color: #fac1ba;
+  border: 1px solid #e4e8ee;
 }
 </style>

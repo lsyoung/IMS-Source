@@ -1,6 +1,248 @@
 <template>
-  <div>
-    <div>
+  <div class="container">
+    <q-tabs
+        v-model="clickMenu"
+        style="border-bottom: 1px solid #C3C3C3;"
+        active-class="menuActive"
+        align="center"
+        inline-label
+        outside-arrows
+        mobile-arrows
+      >
+        <q-tab
+          v-for="list in groupMenu"
+          :key="list.prdgrp_code"
+          :name="list.prdgrp_code"
+          :label="list.prdgrp_name"
+          style="
+            min-width: calc(100vw/5);
+            min-height: 4.125rem;
+            padding: 10px;
+          "
+          @click="onMenuClicked(list.prdgrp_code)"
+        />
+    </q-tabs>
+    <!--  -->
+    <q-scroll-area ref="scrollArea" style="height: calc(45vh)">
+        <q-tab-panels ref="scrollRoww" v-model="clickMenu" animated>
+          <q-tab-panel
+            v-for="list in groupMenu"
+            :key="list.prdgrp_code"
+            :name="list.prdgrp_code"
+          >
+          <div class="row">
+            <div class="col-12 q-pa-lg">
+              <div class="row" id="scrollRow" style="height: auto;">
+                <div
+                  class="col-3 q-pa-md justify-center text-center"
+                  v-for="item in menuList"
+                  :key="item.prod_code"
+                >
+                  <q-card
+                    class="transparent no-border no-border-radius"
+                    flat
+                    :disable="item.soldout_flag == '1'"
+                    @click="OnMenuClick(item)"
+                  >
+                    <q-img class="menu__img no-border" :src="item.prod_image" :ratio="1 / 1">
+                      <q-chip
+                        square
+                        size="md"
+                        color="red"
+                        text-color="white"
+                        label="주문불가"
+                        v-if="item.soldout_flag == 1"
+                      />
+                      <q-chip
+                        square
+                        color="orange"
+                        size="md"
+                        text-color="white"
+                        label="신상품"
+                        icon="fa-solid fa-star"
+                        v-if="item.new_flag == 1"
+                      />
+                      <q-chip
+                        square
+                        color="secondary"
+                        size="md"
+                        text-color="white"
+                        label="추천"
+                        icon="fa-solid fa-thumbs-up"
+                        v-if="item.recmd_flag == 1"
+                      />
+                      <template v-slot:error>
+                        <div class="absolute-full flex flex-center bg-grey-1 text-grey-3 text-h5 text-center text-weight-bold">
+                          NO IMAGE
+                        </div>
+                      </template>
+                    </q-img>
+                    <q-card-section>
+                      <div class="text-h5" style="white-space: no-wrap; overflow: hidden; text-overflow: ellipsis; width: 100%; width: 100%;
+      display: block ruby;">
+                        {{ item.prod_name }}
+                      </div>
+                      <div class="text-h6 text-center" style="min-height: 60px; display: flex; justify-content: end; flex-direction: column;">
+                        <span class="text-grey-5 text-subtitle2" v-if="item.dc_price != 0">
+                          <del>{{ item.price | money }}원 </del>
+                        </span>
+                        <span class="text-grey-7">
+                          {{ item.sel_price | money }}원
+                        </span>
+                      </div>
+                    </q-card-section>
+                    <q-separator />
+                  </q-card>
+                </div>
+              </div>
+            </div>
+          </div>
+          </q-tab-panel>
+        </q-tab-panels>
+      </q-scroll-area>
+      <!--  -->
+      <div class="row justify-center items-center" style="gap: 20px">
+        <div class="col text-right">
+          <q-btn outline color="grey-7" size="xl" icon="keyboard_arrow_down" @click="scrollUp"  />
+        </div>
+        <div class="col">
+          <q-btn outline color="grey-7" size="xl" icon="keyboard_arrow_up" @click="scrollDown"  />
+        </div>
+      </div>
+      <!--  -->
+      <div class="row" style="align-items: end; height: 32vh;">
+        <div class="col">
+          <!-- <q-card>
+            <q-card-section
+              class="scroll q-pt-none basketScroll"
+              style="max-height: 40vh; height: 585px"
+            >
+              <q-table
+                :data="shoppingBasket"
+                :pagination.sync="pagination"
+                hide-bottom
+                hide-header
+                flat
+                virtual-scroll
+              >
+                <template v-slot:body="dataRow">
+                  <q-tr :props="dataRow">
+                    <q-td
+                      style="font-size: 23px; margin-top: 10px; min-width: 630px"
+                    >
+                      <div class="my-table-details q-mt-sm">
+                        {{ dataRow.row.prod_name }}<br />
+                      </div>
+                      <div
+                        style="display: flex; color: #606060; font-size: 0.95rem"
+                      >
+                        <div
+                          v-for="item in dataRow.row.menuOptionList"
+                          v-bind:key="item.setprod_code"
+                        >
+                          <span> {{ item.setprod_name }}&nbsp;*</span>
+                          <span> {{ item.set_qty }} &nbsp;</span>
+                        </div>
+                      </div>
+                    </q-td>
+                    <q-td>
+                      <div style="display: flex; align-items: center">
+                        <q-btn
+                          class="removeBtn q-mr-xs"
+                          outline
+                          dense
+                          size="20px"
+                          :ripple="false"
+                          icon="remove"
+                          @click="OnMenuCountRemove(dataRow.row)"
+                        />
+                        <input
+                          v-model="dataRow.row.count"
+                          readonly
+                          style="
+                            width: 50px;
+                            text-align: center;
+                            border: none;
+                            font-size: 25px;
+                          "
+                        />
+                        <q-btn
+                          outline
+                          dense
+                          size="20px"
+                          :ripple="false"
+                          icon="add"
+                          @click="OnMenuCountAdd(dataRow.row)"
+                        />
+                      </div>
+                    </q-td>
+                    <q-td style="width: 200px">
+                      <div
+                        style="
+                          display: flex;
+                          align-items: center;
+                          justify-content: flex-end;
+                        "
+                      >
+                        <div class="tdTotalPay">
+                          {{
+                            (dataRow.row.sel_price * dataRow.row.count) | currency
+                          }}
+                          원
+                        </div>
+                        <div class="removeTd">
+                          <q-btn
+                            class="removeOneItem"
+                            round
+                            size="md"
+                            text-color="white"
+                            icon="fas fa-xmark"
+                            @click="removeOneItem(dataRow.row)"
+                          />
+                        </div>
+                      </div>
+                    </q-td>
+                  </q-tr>
+                </template>
+              </q-table>
+            </q-card-section>
+          </q-card> -->
+        </div>
+        <div class="col-5">
+          <div class="col q-pr-lg q-mb-lg text-h6 text-weight-medium text-primary">
+            <span>수량 {{ totalCount }}개</span>
+          </div>
+          <div class="col q-mb-xl">
+            <!-- <span>합계</span> -->
+            <span class="text-h2 text-weight-medium"> {{ totalPay | currency }}원 </span>
+          </div>
+          <div class="col q-pr-lg q-mb-lg">
+            <q-btn
+              label="전체취소"
+              style="width: 100%;"
+              color="grey-7"
+              outline
+              @click="removeItems(shoppingBasket)"
+              icon="delete_forever"
+              class="trashIcon"
+            />
+          </div>
+          <div class="col justify-between q-pr-lg">
+            <q-btn class="btnPay" style="width: 100%;" color="primary" icon="shopping_basket" @click="payBtn">
+              <span class="text-center text-h5 q-mx-sm">결제하기</span>
+              <div
+                v-if="remainingTime > 0"
+                class="text-caption text-h5"
+                style="font-size: 1.5rem"
+              >
+                ({{ remainingTime }}초)
+              </div>
+            </q-btn>
+          </div>
+        </div>
+    </div>
+      <!--  -->
+    <!-- <div>
       <q-tabs
         v-model="clickMenu"
         active-class="my-menu-link"
@@ -92,9 +334,9 @@
           </q-tab-panel>
         </q-tab-panels>
       </q-scroll-area>
-    </div>
+    </div> -->
     <!--장바구니 시작-->
-    <div>
+    <!-- <div>
       <div class="cart">
         <q-btn
           label="전체취소"
@@ -119,7 +361,7 @@
       <q-card>
         <q-card-section
           class="scroll q-pt-none basketScroll"
-          style="max-height: 50vh; height: 585px"
+          style="max-height: 40vh; height: 585px"
         >
           <q-table
             :data="shoppingBasket"
@@ -211,7 +453,7 @@
           </q-table>
         </q-card-section>
       </q-card>
-    </div>
+    </div> -->
     <!--장바구니 끝-->
 
     <!--모달창 시작-->
@@ -495,6 +737,16 @@ export default {
       };
 
       this.menuClickPopup = true;
+    },
+    scrollUp () {
+      this.$refs.scrollArea.setScrollPosition('vertical', this.position, 300)
+      this.position = this.$refs.scrollRoww.$el.clientHeight
+      console.log(this.position)
+    },
+    scrollDown () {
+      this.$refs.scrollArea.setScrollPosition('vertical', -this.position, 300)
+      this.position = this.$refs.scrollRoww.$el.clientHeight
+      console.log(this.position)
     },
 
     //옵션클릭
@@ -792,7 +1044,7 @@ export default {
         totalCount += item.count;
       });
       return totalCount;
-    },
+    }
   },
   filters: {
     currency(pay) {
@@ -801,8 +1053,20 @@ export default {
   },
 };
 </script>
+<style scoped>
+.container {
+  height: calc(100vh - 6.25rem);
+}
+.menuActive {
+  color: #F96B5A;
+}
+.btnPay {
+  width: 100%;
+  padding: 2rem 0;
+}
+</style>
 
-<style>
+<!-- <style>
 .groupTab {
   height: 90px;
   width: 200px;
@@ -1000,9 +1264,9 @@ export default {
 .basketScroll::-webkit-scrollbar {
   display: none;
 }
-</style>
+</style> -->
 
-<style lang="sass">
+<!-- <style lang="sass">
 .my-sticky-header-table
   /* height or max-height is important */
   height: 520px
@@ -1028,4 +1292,4 @@ export default {
   tbody
     /* height of all previous header rows */
     scroll-margin-top: 48px
-</style>
+</style> -->

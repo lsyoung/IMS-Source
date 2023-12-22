@@ -98,20 +98,20 @@ export default {
 <style scoped>
 .save {
   max-width: 400px;
-  border: 1px solid #bdbbbbc9;
+  border: 1px solid #9e9e9e;
   border-radius: 3%;
   position: relative;
   left: 35%;
   margin-top: 13%;
 }
 .saveBtn {
-  background-color: #00216a;
+  background-color: #DE5F50;
   color: #fff;
   width: 48%;
   height: 52px;
 }
 .resetBtn {
-  background-color: #00216a;
+  background-color: #DE5F50;
   color: #fff;
   margin-left: 10px;
   width: 48%;

@@ -1,8 +1,25 @@
 <template>
   <q-layout view="lHh Lpr lFf" @click="onClickDisplay">
     <q-header id="head">
-      <q-icon class="homeBtn" name="home" @click="homeClick" />
-      <span id="title">Kiosk</span>
+      <div class="col text-h5 text-weight-medium">{{ storeName }}</div>
+      <div class="col text-center">
+        <q-img src="../assets/imlogitech_logo.svg" class="mainImg" />
+      </div>
+      <div class="col text-right text-h4 justify-end items-center row">
+        
+        <div
+            v-if="remainingTime > 0"
+            class="text-weight-medium text-primary q-mr-sm"
+            style="font-size: 20px"
+          >
+            ({{ remainingTime }}초)
+        </div>
+        <div class="inline">
+
+          <q-icon class="homeBtn" name="home" @click="homeClick" />
+        </div>
+
+      </div>
     </q-header>
 
     <q-page-container>
@@ -19,7 +36,8 @@ export default {
   data() {
     return {
       inactivityTimer: null,
-      remainingTime: 5,
+      remainingTime: 60,
+      storeName: "한우명가 한식 점문점",
     };
   },
   mounted() {
@@ -66,26 +84,26 @@ export default {
       if (this.inactivityTimer) {
         clearTimeout(this.inactivityTimer);
       }
-      this.remainingTime = 40; // 타이머 초기화
+      this.remainingTime = 200; // 타이머 초기화
       this.backTimer(); // 타이머 다시 시작
     },
   },
 };
 </script>
 <style scoped>
-.homeBtn {
-  height: 100px;
-  width: 100px;
-  font-size: 350%;
-  color: #ffffff;
-}
 #head {
-  background-color: #F96B5A;
+  background-color: #FFFFFF;
   display: flex;
   align-items: center;
+  border-bottom: 1px solid #C3C3C3;
+  color: #5A5A5A;
+  height: calc( 6.25rem);
+  padding: 2rem;
+  justify-content:space-between;
+  flex-direction: row;
+  flex-wrap: nowrap;
 }
-#title {
-  font-size: 45px;
-  color: #ffffff;
+.mainImg {
+  width: 100px;
 }
 </style>

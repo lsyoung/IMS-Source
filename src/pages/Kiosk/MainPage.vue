@@ -1,20 +1,25 @@
 <template>
-  <div>
-    <q-card style="height: 100vh">
-      <q-card-section class="row mainHeader">
-        <div class="col">
-          <h5 style="font-size: 30px">{{ storeName }}</h5>
+  <div class="imgBg">
+    <div class="kioskCard">
+      <div class="topBar justify-center bg-grey-1 self-start">
+        <div class="text-center q-pa-md">
+          <q-img src="../../assets/imlogitech_logo.svg" class="mainImg" />
         </div>
-      </q-card-section>
-      <q-img src="https://picsum.photos/780/300" class="mainImg" />
-      <q-card-section align="center">
-        <div class="btnMain">
-          <q-btn label="먹고가기" class="eatTogo" @click="onMovePage(0)" />
-          &nbsp;
-          <q-btn label="포장하기" class="eatTogo" @click="onMovePage(1)" />
+      </div>
+      <div>
+        <div class="storeName">
+          {{ storeName1 }}
+          <br />
+          {{ storeName2 }}
         </div>
-      </q-card-section>
-    </q-card>
+      </div>
+      <div class="btnCon">
+        <div>
+          <q-btn label="먹고가기" class="kioskBtn bg-primary text-grey-1 q-mr-sm" @click="onMovePage(0)" />
+          <q-btn label="포장하기" class="kioskBtn bg-primary text-grey-1 q-ml-sm" @click="onMovePage(1)" />
+        </div>
+      </div>
+    </div>
   </div>
 </template>
 
@@ -26,7 +31,8 @@ export default {
   },
   data() {
     return {
-      storeName: "맥도날드 뉴진스 에디션",
+      storeName1: "한우명가",
+      storeName2: "한식 점문점",
     };
   },
   methods: {
@@ -39,24 +45,48 @@ export default {
 };
 </script>
 
-<style>
-.mainHeader {
-  text-align: center;
-  padding: 3%;
+<style scoped>
+.imgBg {
+  background-image: url(../../assets/index_img.jpg);
+  background-position: center center;
+  background-repeat: no-repeat;
+  background-size: auto 105%;
+  height: 100vh;
+  width: 100vw;
+}
+.kioskCard {
+  background-color: rgba(0,0,0,.5);
+  height: 100vh;
+  width: 100vw;
+  border-radius: 0;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  align-items: center;
 }
 .mainImg {
-  height: 73%;
+  width: 120px;
 }
-.btnMain {
-  padding-top: 7%;
-  padding-bottom: 5%;
+.topBar {
+  display: flex;
+  width: 100vw;
 }
-.eatTogo {
-  border-radius: 3%;
-  background-color: #00216a;
-  color: white;
-  font-size: 35px;
-  width: 47%;
-  height: 150px;
+.storeName {
+  font-size: 9.2rem;
+  font-weight: 700;
+  color: #fff;
+  text-align: center;
+  width: 85vw;
+  justify-content: center;
+  align-items: center;
+}
+.btnCon {
+  width: 100%;
+  padding: 3rem;
+  text-align: center;
+}
+.kioskBtn {
+  padding: 20px;
+  width: 48%;
 }
 </style>
