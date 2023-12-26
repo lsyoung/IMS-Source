@@ -1,17 +1,70 @@
 <template>
   <div>
-    <div style="text-align: center; font-size: 35px; margin-top: 10%">
-      <span><b>결제수단</b>을 선택해주세요.</span>
-      <div style="background-color: #a9d0f5; margin-top: 10%; height: 180px">
-        <div style="padding-top: 3%">
-          <span style="margin-left: 25px; margin-bottom: 10px">
-            <b v-if="resetTime > 0" class="text-caption" style="font-size: 40px"
+    <div>
+      <q-item class="row text-h5 text-grey-7 bg-grey-2 q-pa-lg" style="width: 100%;">
+        <div class="col q-pl-md">
+          <span> 메뉴 </span>
+        </div>
+        <div class="col text-center">
+          <span> 수량 </span>
+        </div>
+        <div class="col text-right q-pr-md">
+          <span> 가격 </span>
+        </div>
+      </q-item>
+      <div style="width: 100%;" class="q-px-lg">
+        <q-scroll-area class="scroll"
+         style="height: calc(40vh); max-height: 100%">
+          <!--  -->
+            <q-card-section
+              v-for="(menu, index) in shoppingBasket"
+              :key="index"
+            >
+              <div class="row">
+                <div class="col">
+                  <div class="row" style="gap: 10px;">
+                    <div class="col text-grey-9">
+                      <span class="text-h6">{{ menu.prod_name }}</span>
+                      <div>
+                        <ul v-for="subOption in menu.menuOptionList" :key="subOption.setprod_code"
+                        style="list-style: none; margin: 0; padding: 0; display: flex; gap: 10px; justify-content: stretch; width: 100%; flex-wrap: nowrap;">
+                          <li>{{ subOption.setprod_name }}</li>
+                          <li>{{ subOption.set_qty }}</li>
+                        </ul>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <div class="col text-h6 text-center q-pr-lg text-grey-9">
+                  {{ menu.count }}
+                </div>
+                <div class="col text-h6 text-right text-grey-9">
+                  {{ (menu.sel_price * menu.count) | currency }} 원
+                </div>
+              </div>
+              <q-separator class="q-mt-md " />
+            </q-card-section>
+          <!--  -->
+        </q-scroll-area>
+      </div>
+    </div>
+    <div class="bg-red-2 text-center q-pa-xl">
+      <b v-if="resetTime > 0" class="text-grey-9 text-weight-medium text-h4"
               >결제금액 ({{ resetTime }}초)
             </b>
-          </span>
-        </div>
-        <span class="total">{{ formattedTotalPay }}원</span>
+    </div>
+    <div class="row text-h5 text-center text-weight-medium bg-indigo-11 text-white q-pa-lg">
+      <div class="col text-left">총 금액</div>
+      <div class="col text-right">
+        {{ totalCount }}
       </div>
+      <div class="col text-right">
+        {{ formattedTotalPay }}원
+      </div>
+    </div>
+    <div>
+      
+    <span>결제수단을 선택해주세요.</span>
     </div>
     <div id="payMoney">
       <!-- 카드만 놔두려고 filter 걸어둠 -->
@@ -51,6 +104,14 @@ export default {
       const totalPay = this.$route.params.totalPay || 0;
       return this.formatCurrency(totalPay);
     },
+    
+    totalCount() {
+      let totalCount = 0;
+      this.shoppingBasket.forEach((item, index, arr) => {
+        totalCount += item.count;
+      });
+      return totalCount;
+    },
   },
   components: { TextDialog },
   data() {
@@ -60,7 +121,7 @@ export default {
       shoppingBasket: [],
       payMenu: [],
       inactivityTimer: null,
-      resetTime: 30,
+      resetTime: 100,
       getPackFlag: null,
       getTabletInfo: "",
       getPsr: "",
@@ -71,6 +132,7 @@ export default {
     this.getMainData();
     this.getPackFlag = this.$store.state.api.packFlag;
     const shoppingBasketParam = this.$route.params.shoppingBasket;
+    
     if (shoppingBasketParam) {
       this.shoppingBasket = shoppingBasketParam;
     }
@@ -146,6 +208,9 @@ export default {
           if (this.resetTime === 0) {
             this.$router.push("/mainPage");
           }
+          
+    EventBus.$emit("changeTime", this.resetTime);
+      console.log(this.resetTime);
         }
       }, 1000); // 1초마다 체크
     },
@@ -315,10 +380,15 @@ export default {
       extra.callToPayment(option);
     },
   },
+  filters: {
+    currency(pay) {
+      return pay.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+    },
+  },
 };
 </script>
 
-<style>
+<!-- <style>
 #payMoney {
   padding-top: 100px;
   padding-left: 23px;
@@ -350,4 +420,4 @@ export default {
   padding-top: 60px;
   color: #333;
 }
-</style>
+</style> -->

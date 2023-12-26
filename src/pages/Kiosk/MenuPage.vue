@@ -84,10 +84,12 @@
                       </div>
                       <div class="text-h6 text-center" style="min-height: 60px; display: flex; justify-content: end; flex-direction: column;">
                         <span class="text-grey-5 text-subtitle2" v-if="item.dc_price != 0">
-                          <del>{{ item.price | money }}원 </del>
+                          <!-- <del>{{ item.price | money }}원 </del> -->
+                          <del>{{ item.price | currency }}원 </del>
                         </span>
                         <span class="text-grey-7">
-                          {{ item.sel_price | money }}원
+                          <!-- {{ item.sel_price | money }}원 -->
+                          {{ item.sel_price | currency }}원
                         </span>
                       </div>
                     </q-card-section>
@@ -103,7 +105,7 @@
       <!--  -->
       <div class="row justify-center items-center" style="gap: 20px">
         <div class="col text-right">
-          <q-btn outline color="grey-7" size="xl" icon="keyboard_arrow_down" @click="scrollUp"  />
+          <q-btn outline color="grey-7" size="xl" icon="keyboard_arrow_down" @click="scrollUp"   />
         </div>
         <div class="col">
           <q-btn outline color="grey-7" size="xl" icon="keyboard_arrow_up" @click="scrollDown"  />
@@ -111,12 +113,11 @@
       </div>
       <!--  -->
       <div class="row" style="align-items: end; height: 32vh;">
-        <div class="col">
-          <!-- <q-card>
+        <div class="col q-mx-lg items-end">
+          <q-card class="">
             <q-card-section
-              class="scroll q-pt-none basketScroll"
-              style="max-height: 40vh; height: 585px"
-            >
+              class="scroll q-pt-none basketScroll" id="menuHeight" style="height: 29vh;">
+              
               <q-table
                 :data="shoppingBasket"
                 :pagination.sync="pagination"
@@ -127,9 +128,7 @@
               >
                 <template v-slot:body="dataRow">
                   <q-tr :props="dataRow">
-                    <q-td
-                      style="font-size: 23px; margin-top: 10px; min-width: 630px"
-                    >
+                    <q-td>
                       <div class="my-table-details q-mt-sm">
                         {{ dataRow.row.prod_name }}<br />
                       </div>
@@ -146,30 +145,34 @@
                       </div>
                     </q-td>
                     <q-td>
-                      <div style="display: flex; align-items: center">
+                      <div class="" style="border: 1px solid #E2E2E2; border-radius: 10px; display: flex; justify-content: stretch;">
                         <q-btn
-                          class="removeBtn q-mr-xs"
+                          class="col self-start"
                           outline
+                          flat
                           dense
-                          size="20px"
+                          size="sm"
                           :ripple="false"
                           icon="remove"
                           @click="OnMenuCountRemove(dataRow.row)"
                         />
                         <input
+                          class="col"
                           v-model="dataRow.row.count"
                           readonly
                           style="
-                            width: 50px;
-                            text-align: center;
-                            border: none;
-                            font-size: 25px;
-                          "
+                                width: 50px;
+                                text-align: center;
+                                border: none;
+                                font-size: 16px;
+                              "
                         />
                         <q-btn
+                          class="col self-end"
                           outline
+                          flat
                           dense
-                          size="20px"
+                          size="sm"
                           :ripple="false"
                           icon="add"
                           @click="OnMenuCountAdd(dataRow.row)"
@@ -192,10 +195,10 @@
                         </div>
                         <div class="removeTd">
                           <q-btn
-                            class="removeOneItem"
+                            flat
                             round
                             size="md"
-                            text-color="white"
+                            text-color="primary"
                             icon="fas fa-xmark"
                             @click="removeOneItem(dataRow.row)"
                           />
@@ -205,10 +208,11 @@
                   </q-tr>
                 </template>
               </q-table>
+              <div class="col row justify-center items-center text-h6 text-grey-7 bg-grey-2 q-mt-md" style="width: 100%; height: calc(100% - 1rem);" v-if="shoppingBasket.length == 0">메뉴를 추가해 주세요.</div>
             </q-card-section>
-          </q-card> -->
+          </q-card>
         </div>
-        <div class="col-5">
+        <div class="col-4">
           <div class="col q-pr-lg q-mb-lg text-h6 text-weight-medium text-primary">
             <span>수량 {{ totalCount }}개</span>
           </div>
@@ -222,6 +226,8 @@
               style="width: 100%;"
               color="grey-7"
               outline
+              
+              :disable="shoppingBasket.length == 0"
               @click="removeItems(shoppingBasket)"
               icon="delete_forever"
               class="trashIcon"
@@ -464,38 +470,60 @@
       @click="onClickDisplay"
     >
       <q-card>
-        <q-toolbar-title
-          style="
-            text-align: center;
-            background-color: #00216a;
-            color: #fff;
-            font-size: 30px;
-          "
-        >
+        <q-toolbar-title class="bg-grey-2 text-grey-9 q-pa-lg text-h5 row items-center justify-center">
+          <div class="col text-h5 text-weight-medium q-ml-sm">
+            <q-icon class="text-h4" name="keyboard_backspace" @click="meunPopUpClose" />
+          </div>
+          <div class="col text-center">
           상품정보
+          </div>
+          <div class="col text-right text-h4 justify-end items-center row">
+        
+            <div
+                v-if="remainingTime > 0"
+                class="text-weight-medium text-primary q-mr-sm"
+                style="font-size: 20px"
+              >
+                ({{ remainingTime }}초)
+            </div>
+            <div class="inline">
+
+              <q-icon class="homeBtn" name="home" @click="homeClick" />
+            </div>
+
+          </div>
         </q-toolbar-title>
         <q-card-section>
-          <div class="row" style="padding: 25px">
+          <div class="row justify-between items-start">
             <div class="col-4">
-              <q-img :src="clickedItem.prod_image" style="height: 300px" />
+              <q-img class="no-border" :src="clickedItem.prod_image" :ratio="1 / 1">
+                <template v-slot:error>
+                  <div class="absolute-full flex flex-center bg-grey-1 text-grey-3 text-h5 text-center text-weight-bold">
+                    NO IMAGE
+                  </div>
+                </template>
+              </q-img>
             </div>
-            <div class="col-8" style="padding: 55px 25px 25px">
-              <div class="menuName">
+            <div class="col-8 q-pl-lg">
+              <div class="text-h5 text-weight-medium text-grey-9">
                 {{ clickedItem.prod_name }}
               </div>
-              <div class="text-body1 menuComment">
+              <q-separator class="q-my-lg" />
+              <div class="text-body1">
                 {{ clickedItem.prod_comment }}
               </div>
-              <div class="menuCount">
+              <div class="q-mt-lg" style="border: 1px solid #E2E2E2; border-radius: 10px; width: 40%; display: flex; justify-content: stretch;">
                 <q-btn
-                  outline
+                  class="col float-left"
+                  flat
                   dense
-                  size="22px"
+                  size="lg"
                   :ripple="false"
                   icon="remove"
                   @click="OnMenuCountRemove(clickedItem)"
                 />
                 <input
+                  class="col"
                   v-model="clickedItem.count"
                   readonly
                   style="
@@ -506,9 +534,11 @@
                   "
                 />
                 <q-btn
+                  class="col float-right"
                   outline
+                  flat
                   dense
-                  size="22px"
+                  size="lg"
                   :ripple="false"
                   icon="add"
                   @click="OnMenuCountAdd(clickedItem)"
@@ -516,40 +546,94 @@
               </div>
             </div>
           </div>
+          <q-separator class="q-mt-md" />
         </q-card-section>
         <q-scroll-area
-          style="height: calc(100vh - 1000px); margin: 15px 0px 0px 35px"
+          style="height: calc(53vh);" class="q-px-md q-mb-md"
         >
           <q-card-section
             class="items-center chkBox"
             v-for="item in optionGroup"
             :key="item.setgrp_code"
           >
-            <span class="text-h4 text-weight-bold">
+            <span class="text-h5 text-weight-bold text-grey-9">
               {{ item.setgrp_name }}
             </span>
             <span
-              class="text-h6 text-weight-bolder"
-              style="color: #ff5350"
+            class="text-subtitle2 text-weight-bold text-primary"
               v-if="item.must_flag == '1'"
             >
               필수선택 {{ item.opt_cnt }}개
             </span>
-            <div class="q-pa-md chkItem">
+            <div class="col-12">
+                  <div
+                    class="inputBox"
+                    v-for="optionItem in item.optionList"
+                    :key="optionItem.setprod_code"
+                  >
+                    <q-checkbox
+                      size="lg"
+                      keep-color
+                      color="primary"
+                      v-model="optionItem.chk_flag"
+                      :label="optionItem.setprod_name"
+                      :disable="optionItem.soldout_flag == '1'"
+                      @input="optionClick(item, optionItem)"
+                    />
+                    <q-chip
+                      color="red"
+                      text-color="white"
+                      label="품절"
+                      v-if="optionItem.soldout_flag == '1'"
+                    />
+                    <div class="float-right text-h7 text-right" style="width: 100px; margin-top: 12px;">
+                      {{ optionItem.set_price | currency }} 원
+                    </div>
+                    <div  class="float-right" style="border: 2px solid #E2E2E2; border-radius: 10px; margin-top: 6px;" id="optionBtn" v-if="optionItem.qty_edit_flag == 1">
+                      <q-btn
+                        flat
+                        dense
+                        size="md"
+                        :ripple="false"
+                        icon="remove"
+                        @click="OnOptionCountRemove(optionItem)"
+                      />
+                      <input
+                        v-model="optionItem.set_qty"
+                        readonly
+                        style="
+                          width: 50px;
+                          text-align: center;
+                          border: none;
+                        "
+                      />
+                      <q-btn
+                        flat
+                        dense
+                        size="md"
+                        :ripple="false"
+                        icon="add"
+                        @click="OnOptionCountAdd(item, optionItem)"
+                      />
+                    </div>
+                  </div>
+                </div>
+            <!-- <div class="q-pa-md chkItem">
               <div
                 class="inputBox"
                 v-for="optionItem in item.optionList"
                 :key="optionItem.setprod_code"
               >
                 <q-checkbox
-                  size="75px"
+                  size="lg"
                   keep-color
-                  color="indigo-10"
+                  color="primary"
                   v-model="optionItem.chk_flag"
                   :label="optionItem.setprod_name"
                   :disable="optionItem.soldout_flag == '1'"
                   @input="optionClick(item, optionItem)"
                 />
+                
                 <q-chip
                   color="red"
                   text-color="white"
@@ -588,30 +672,44 @@
                   />
                 </div>
               </div>
-            </div>
+            </div> -->
           </q-card-section>
         </q-scroll-area>
-        <div class="text-h5 text-center text-weight-bold opn">
-          총 금액 :
+        <div class="row text-h5 text-center text-weight-medium bg-indigo-11 text-white q-pa-lg">
+          <div class="col text-left">
+            총 금액
+          </div>
+          <div class="col text-right">
+            {{ clickedItem.count }}
+          </div>
+          <div class="col text-right q-pr-sm">
           {{
             ((clickedItem.sel_price + clickOptionPrice + optionSetPrice) *
               clickedItem.count)
               | currency
           }}
           원
+          </div>
         </div>
-        <div class="actionBox">
+        <div class="row q-ma-lg justify-between">
           <q-btn
-            class="ationAddBtn"
-            label="주문담기"
-            flat
-            @click="OnAppendToBasket(clickedItem, optionGroup)"
+            outline
+            unelevated
+            color="grey-5"
+            size="xl"
+            class="text-grey-9 q-mr-sm"
+            label="취소"
+            style="width: calc(50% - .5rem);"
+            @click="meunPopUpClose"
           />
           <q-btn
-            class="ationCancleBtn"
-            label="취소"
-            flat
-            @click="meunPopUpClose"
+            unelevated
+            size="xl"
+            style="width: calc(50% - .5rem);"
+            class="q-ml-sm"
+            color="primary"
+            label="주문담기"
+            @click="OnAppendToBasket(clickedItem, optionGroup)"
           />
         </div>
       </q-card>
@@ -625,6 +723,7 @@ export default {
   name: "MenuPage",
   data() {
     return {
+      storeName: "한우명가 한식 점문점",
       menuClickPopup: false,
       maximizedToggle: true,
       groupMenu: [],
@@ -651,6 +750,7 @@ export default {
   mounted() {
     this.getTabletInfo = this.$store.getters["table/tabletInfo"];
     this.getMainData();
+    this.getHeight();
     //시간
     EventBus.$on("changeTime", (data) => {
       this.remainingTime = data;
@@ -660,6 +760,10 @@ export default {
     EventBus.$off("changeTime");
   },
   methods: {
+    homeClick: function () {
+      this.$store.dispatch("timer/changeState");
+      this.$router.push("/mainPage");
+    },
     async getMainData() {
       let param = {
         SP: "spj_mst_prod_grp",
@@ -747,6 +851,10 @@ export default {
       this.$refs.scrollArea.setScrollPosition('vertical', -this.position, 300)
       this.position = this.$refs.scrollRoww.$el.clientHeight
       console.log(this.position)
+    },
+    getHeight: function(){
+      let height=this.$refs.scrollRoww.$el.clientHeight;
+      console.log("scroll "+height)
     },
 
     //옵션클릭
@@ -1031,6 +1139,9 @@ export default {
     },
   },
   computed: {
+    isDisables() {
+    return this.$refs.scrollRoww.$el.clientHeight > 0;
+  },
     totalPay() {
       let totalPay = 0;
       this.shoppingBasket.forEach((item, index, arr) => {

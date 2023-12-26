@@ -33,7 +33,7 @@
           </li>
           <li class="block--item--menu q-py-sm">
             <img src="../../assets/home_icon_4.svg">
-            <h2>뷰티·살롱</h2>
+            <h2>주문완료</h2>
           </li>
         </ul>
 
