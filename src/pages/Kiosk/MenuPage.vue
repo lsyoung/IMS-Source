@@ -31,10 +31,10 @@
             :name="list.prdgrp_code"
           >
           <div class="row">
-            <div class="col-12 q-pa-lg">
+            <div class="col-12">
               <div class="row" id="scrollRow" style="height: auto;">
                 <div
-                  class="col-3 q-pa-md justify-center text-center"
+                  class="col-3 q-pa-sm justify-center text-center"
                   v-for="item in menuList"
                   :key="item.prod_code"
                 >
@@ -44,7 +44,7 @@
                     :disable="item.soldout_flag == '1'"
                     @click="OnMenuClick(item)"
                   >
-                    <q-img class="menu__img no-border" :src="item.prod_image" :ratio="1 / 1">
+                    <q-img class="no-border rounded-borders" :src="item.prod_image" :ratio="1 / 1">
                       <q-chip
                         square
                         size="md"

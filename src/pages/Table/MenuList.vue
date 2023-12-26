@@ -3,7 +3,7 @@
     <q-scroll-area class="scroll"
              :thumb-style="thumbStyle" style="height: calc(100vh - 116px); padding: 0">
       <div class="row">
-        <div class="col-12 q-pa-lg">
+        <div class="col-12">
           <div class="row" id="scrollRow">
             <div
               class="col-3 q-pa-md justify-center text-center"
@@ -16,7 +16,7 @@
                 :disable="item.soldout_flag == '1'"
                 @click="OnMenuClick(item)"
               >
-                <q-img class="menu__img no-border" :src="item.prod_image" :ratio="1 / 1">
+                <q-img class="menu__img no-border rounded" :src="item.prod_image" :ratio="1 / 1">
                   <q-chip
                     square
                     size="md"

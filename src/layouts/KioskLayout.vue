@@ -78,7 +78,10 @@ export default {
         }
       }, 1000); // 1초마다 체크
       EventBus.$emit("changeTime", this.remainingTime);
-      
+
+      EventBus.$on("changeTime", (data) => {
+        this.remainingTime = data
+      });
     },
 
     resetTimer() {

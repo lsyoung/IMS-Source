@@ -5,7 +5,7 @@
         <div class="col q-pl-md">
           <span> 메뉴 </span>
         </div>
-        <div class="col text-center">
+        <div class="col text-right">
           <span> 수량 </span>
         </div>
         <div class="col text-right q-pr-md">
@@ -35,7 +35,7 @@
                     </div>
                   </div>
                 </div>
-                <div class="col text-h6 text-center q-pr-lg text-grey-9">
+                <div class="col text-h6 text-right q-pr-lg text-grey-9">
                   {{ menu.count }}
                 </div>
                 <div class="col text-h6 text-right text-grey-9">
@@ -48,11 +48,6 @@
         </q-scroll-area>
       </div>
     </div>
-    <div class="bg-red-2 text-center q-pa-xl">
-      <b v-if="resetTime > 0" class="text-grey-9 text-weight-medium text-h4"
-              >결제금액 ({{ resetTime }}초)
-            </b>
-    </div>
     <div class="row text-h5 text-center text-weight-medium bg-indigo-11 text-white q-pa-lg">
       <div class="col text-left">총 금액</div>
       <div class="col text-right">
@@ -62,12 +57,47 @@
         {{ formattedTotalPay }}원
       </div>
     </div>
-    <div>
+    <div class="bg-red-2 text-center q-pa-xl">
+      <b v-if="resetTime > 0" class="text-grey-9 text-weight-medium text-h4"
+              >결제금액 ({{ resetTime }}초)
+            </b>
+    </div>
+    <div class="text-h5 text-grey-7 text-center q-pa-lg">
       
     <span>결제수단을 선택해주세요.</span>
     </div>
-    <div id="payMoney">
+    <div class="row q-pa-lg">
+      <div class="col-6">
+        <div>
+          <q-btn
+            unelevated
+            class="row"
+            color="primary"
+            style="width: 100%; height: 190px; border-radius: 10px;"
+            v-for="(item, index) in payMenu.filter((e) => e.mj_paygbn == 'CARD')"
+            :key="index"
+            @click="OnReqPayment(item.mj_paygbn)"
+          >
+            <div class="row self-start q-pt-sm text-h5 text-weight-medium" style="width: 100%;">
+              <div class="col-6 text-left">카드 결제</div>
+              <div class="col-6 text-right">
+                <q-icon name="payment" />
+              </div>
+            </div>
+            <div class="row text-left q-mt-xl" style="width: 100%;">
+            {{ item.mj_paygbn_name }}
+
+            </div>
+            </q-btn
+          >
+        </div>
+      </div>
+      <div class="col-12 q-mt-md">
+        <q-btn outline style="width: 100%;" label="취소" @click="back" />
+      </div>
+    </div>
       <!-- 카드만 놔두려고 filter 걸어둠 -->
+    <!-- <div id="payMoney">
       <q-btn
         v-for="(item, index) in payMenu.filter((e) => e.mj_paygbn == 'CARD')"
         :key="index"
@@ -77,16 +107,15 @@
       >
         {{ item.mj_paygbn_name }}</q-btn
       >
-    </div>
+    </div> -->
 
     <!--결제하고 난뒤에-->
-    <div v-if="showReturnMessage" class="returnMessage">
+    <!-- <div v-if="showReturnMessage" class="returnMessage">
       <span v-if="countDown > 0">
         <b>{{ countDown }}초</b> 뒤에 메인화면으로 돌아갑니다.
       </span>
-    </div>
+    </div> -->
 
-    <q-btn id="cancelBtn" outline label="취소" @click="back" />
     <text-dialog ref="refAlertPopup" />
   </div>
 </template>
@@ -209,8 +238,7 @@ export default {
             this.$router.push("/mainPage");
           }
           
-    EventBus.$emit("changeTime", this.resetTime);
-      console.log(this.resetTime);
+        EventBus.$emit("changeTime", this.resetTime);
         }
       }, 1000); // 1초마다 체크
     },
