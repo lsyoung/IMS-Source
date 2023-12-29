@@ -14,7 +14,7 @@
       </q-item>
       <div style="width: 100%;" class="q-px-lg">
         <q-scroll-area class="scroll"
-         style="height: calc(40vh); max-height: 100%">
+         style="height: calc(36vh); max-height: 100%">
           <!--  -->
             <q-card-section
               v-for="(menu, index) in shoppingBasket"
@@ -93,7 +93,7 @@
         </div>
       </div>
       <div class="col-12 q-mt-md">
-        <q-btn outline style="width: 100%;" label="취소" @click="back" />
+        <q-btn outline size="xl" style="width: 100%; height: 5rem;" label="취소" @click="back" />
       </div>
     </div>
       <!-- 카드만 놔두려고 filter 걸어둠 -->
