@@ -23,7 +23,7 @@
         />
     </q-tabs>
     <!--  -->
-    <q-scroll-area ref="scrollArea" style="height: calc(40vh)">
+    <q-scroll-area ref="scrollArea" style="height: calc(47vh)">
         <q-tab-panels ref="scrollRoww" v-model="clickMenu" animated>
           <q-tab-panel
             v-for="list in groupMenu"
