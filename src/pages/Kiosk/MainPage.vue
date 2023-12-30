@@ -31,7 +31,7 @@ export default {
   },
   data() {
     return {
-      storeName1: "한우명가",
+      storeName1: "한우명가1111",
       storeName2: "한식 점문점",
     };
   },
