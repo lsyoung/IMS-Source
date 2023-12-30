@@ -14,7 +14,7 @@
       </q-item>
       <div style="width: 100%;" class="q-px-lg">
         <q-scroll-area class="scroll"
-         style="height: calc(36vh); max-height: 100%">
+         style="height: calc(40vh); max-height: 100%">
           <!--  -->
             <q-card-section
               v-for="(menu, index) in shoppingBasket"
@@ -93,7 +93,7 @@
         </div>
       </div>
       <div class="col-12 q-mt-md">
-        <q-btn outline size="xl" style="width: 100%; height: 5rem;" label="취소" @click="back" />
+        <q-btn outline style="width: 100%;" label="취소" @click="back" />
       </div>
     </div>
       <!-- 카드만 놔두려고 filter 걸어둠 -->
@@ -124,7 +124,7 @@
 import extra from "src/utils/extra";
 import TextDialog from "src/components/TextDialog.vue";
 import EventBus from "../../utils/eventbus";
-import OrderPrint from "src/utils/OrderPrint";
+import {imsidata} from './data'
 
 export default {
   name: "PayPage",
@@ -167,6 +167,8 @@ export default {
     }
 
     this.backTimer();
+
+    this.test();
 
     window.addEventListener("message", (e) => {
       const callInofs = e.data;
@@ -345,7 +347,6 @@ export default {
         }
         const result = await this.$store.dispatch("api/execApi", param);
         this.getPsr = result.CONT[0].psr;
-        console.log("result", result);
 
         EventBus.$off("result");
         extra.HideFullScreenLoading();
@@ -354,9 +355,12 @@ export default {
       });
     },
 
+    test() {
+      extra.callToExternalFunction("kioskPayResult", imsidata); // C#으로 kiosk 결제내역 소켓통신하도록
+    },
+
     // 영수증
     async custBill() {
-      console.log(this.getPsr);
       let param1 = {
         SP: "spj_sch_order",
         job_type: "REPSHT",
@@ -364,10 +368,9 @@ export default {
         psr: this.getPsr,
       };
       const result1 = await this.$store.dispatch("api/execApi", param1);
-      console.log("param1", param1);
-      console.log("result11111", result1);
       this.receiptCust = result1.CONT[0];
       this.receiptCust.payInfo = [];
+      this.receiptCust.orderInfo = [];
 
       let param2 = {
         SP: "spj_sch_order",
@@ -380,8 +383,6 @@ export default {
       this.receiptList.forEach((pay) => {
         this.receiptCust.payInfo.push(pay);
       });
-      console.log("키오스크", this.receiptCust);
-      OrderPrint.CustReceipt(this.receiptCust);
 
       let param3 = {
         SP: "spj_sch_order",
@@ -391,8 +392,14 @@ export default {
       };
       const result3 = await this.$store.dispatch("api/execApi", param3);
       this.tableData = result3.CONT;
-      console.log("222222222", this.tableData);
-      //  OrderPrint.PrintReceipt(this.tableData);
+      this.tableData.forEach((order) => {
+        this.receiptCust.orderInfo.push(order);
+      });
+
+      let toCsharpresult = [];
+      toCsharpresult.push(this.receiptCust)
+      // C#으로 결제정보 보내기 필요
+      extra.callToExternalFunction("kioskPayResult", toCsharpresult); // C#으로 kiosk 결제내역 소켓통신하도록
 
       this.$router.push("/mainPage");
     },
