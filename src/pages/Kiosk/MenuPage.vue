@@ -23,7 +23,7 @@
         />
     </q-tabs>
     <!--  -->
-    <q-scroll-area ref="scrollArea" style="height: calc(47vh)">
+    <q-scroll-area ref="scrollArea" style="height: calc(45vh)">
         <q-tab-panels ref="scrollRoww" v-model="clickMenu" animated>
           <q-tab-panel
             v-for="list in groupMenu"
@@ -84,11 +84,9 @@
                       </div>
                       <div class="text-h6 text-center" style="min-height: 60px; display: flex; justify-content: end; flex-direction: column;">
                         <span class="text-grey-5 text-subtitle2" v-if="item.dc_price != 0">
-                          <!-- <del>{{ item.price | money }}원 </del> -->
                           <del>{{ item.price | currency }}원 </del>
                         </span>
                         <span class="text-grey-7">
-                          <!-- {{ item.sel_price | money }}원 -->
                           {{ item.sel_price | currency }}원
                         </span>
                       </div>
@@ -112,48 +110,11 @@
         </div>
       </div>
       <!--  -->
-      <div class="row q-mb-lg q-mt-lg justify-center ">
-        
-        <div class="row col q-pr-lg q-mb-lg text-h6 text-weight-medium text-primary items-center justify-center">
-            <span>수량 {{ totalCount }}개</span>
-          </div>
-        <div class="row col-4 q-pr-lg justify-end">
-          <!-- <span>합계</span> -->
-          <span class="text-h3 text-weight-medium q-mb-md text-right"> {{ totalPay | currency }}원 </span>
-          
-          <q-btn
-              label="전체취소"
-              style="width: 100%;"
-              color="grey-7"
-              outline
-              
-              :disable="shoppingBasket.length == 0"
-              @click="removeItems(shoppingBasket)"
-              icon="delete_forever"
-              class="trashIcon"
-            />
-        </div>
-        
-        <div class="col">
-          <div class="col justify-between q-pr-lg">
-            <q-btn class="btnPay" style="width: 100%;" color="primary" icon="shopping_basket" @click="payBtn">
-              <span class="text-center text-h5 q-mx-sm">결제하기</span>
-              <div
-                v-if="remainingTime > 0"
-                class="text-caption text-h5"
-                style="font-size: 1.5rem"
-              >
-                ({{ remainingTime }}초)
-              </div>
-            </q-btn>
-          </div>
-        </div>
-      </div>
-      <div class="row" style="align-items: end; height: 20vh;">
+      <div class="row" style="align-items: end; height: 32vh;">
         <div class="col q-mx-lg items-end">
           <q-card class="">
             <q-card-section
-              class="scroll q-pt-none basketScroll" id="menuHeight" style="height: 20vh;">
+              class="scroll q-pt-none basketScroll" id="menuHeight" style="height: 29vh;">
               
               <q-table
                 :data="shoppingBasket"
@@ -249,7 +210,40 @@
             </q-card-section>
           </q-card>
         </div>
-        
+        <div class="col-4">
+          <div class="col q-pr-lg q-mb-lg text-h6 text-weight-medium text-primary">
+            <span>수량 {{ totalCount }}개</span>
+          </div>
+          <div class="col q-mb-xl">
+            <!-- <span>합계</span> -->
+            <span class="text-h2 text-weight-medium"> {{ totalPay | currency }}원 </span>
+          </div>
+          <div class="col q-pr-lg q-mb-lg">
+            <q-btn
+              label="전체취소"
+              style="width: 100%;"
+              color="grey-7"
+              outline
+              
+              :disable="shoppingBasket.length == 0"
+              @click="removeItems(shoppingBasket)"
+              icon="delete_forever"
+              class="trashIcon"
+            />
+          </div>
+          <div class="col justify-between q-pr-lg">
+            <q-btn class="btnPay" style="width: 100%;" color="primary" icon="shopping_basket" @click="payBtn">
+              <span class="text-center text-h5 q-mx-sm">결제하기</span>
+              <div
+                v-if="remainingTime > 0"
+                class="text-caption text-h5"
+                style="font-size: 1.5rem"
+              >
+                ({{ remainingTime }}초)
+              </div>
+            </q-btn>
+          </div>
+        </div>
     </div>
       <!--  -->
     <!-- <div>
@@ -553,7 +547,7 @@
           <q-separator class="q-mt-md" />
         </q-card-section>
         <q-scroll-area
-          style="height: calc(51vh);" class="q-px-md q-mb-md"
+          style="height: calc(53vh);" class="q-px-md q-mb-md"
         >
           <q-card-section
             class="items-center chkBox"
@@ -703,13 +697,13 @@
             size="xl"
             class="text-grey-9 q-mr-sm"
             label="취소"
-            style="width: calc(50% - .5rem); height: 5rem;"
+            style="width: calc(50% - .5rem);"
             @click="meunPopUpClose"
           />
           <q-btn
             unelevated
             size="xl"
-            style="width: calc(50% - .5rem); height: 5rem;"
+            style="width: calc(50% - .5rem);"
             class="q-ml-sm"
             color="primary"
             label="주문담기"
